@@ -80,9 +80,15 @@
                     <a href="../index.html#connect" class="text-sm bg-deep-blue text-cream px-6 py-2 rounded-full hover:bg-gold transition-colors duration-300 tracking-wider">Connect</a>
                 </div>
 
-                <button id="mobile-menu-btn" class="md:hidden text-deep-blue">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-cream-dark absolute w-full">
+            <div class="px-4 py-6 space-y-4 flex flex-col items-center">
+                <a href="../index.html#journey" class="text-sm text-soft-gray hover:text-gold transition-colors">The Journey</a>
+                <a href="../index.html#about" class="text-sm text-soft-gray hover:text-gold transition-colors">About</a>
+                <a href="../index.html#trilogy" class="text-sm text-soft-gray hover:text-gold transition-colors">The Trilogy</a>
+                <a href="../shop.html" class="text-sm text-soft-gray hover:text-gold transition-colors">Shop</a>
+                <a href="../blog.html" class="text-sm text-gold font-medium">Blog</a>
+                <a href="../index.html#connect" class="text-sm text-deep-blue font-medium">Connect</a>
             </div>
         </div>
     </nav>
@@ -257,6 +263,60 @@
 
     <script>
         lucide.createIcons();
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-sm');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Newsletter form handling (all forms)
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const emailInput = form.querySelector('input[type="email"]');
+                const email = emailInput ? emailInput.value : '';
+                
+                if (email) {
+                    // Create custom alert
+                    const alert = document.createElement('div');
+                    alert.className = 'fixed top-20 right-4 bg-gold text-white px-6 py-4 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50';
+                    alert.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                            <p class="font-medium">Welcome to the journey!</p>
+                        </div>
+                    `;
+                    document.body.appendChild(alert);
+                    lucide.createIcons();
+                    
+                    setTimeout(() => {
+                        alert.classList.remove('translate-x-full');
+                    }, 100);
+                    
+                    setTimeout(() => {
+                        alert.classList.add('translate-x-full');
+                        setTimeout(() => alert.remove(), 300);
+                    }, 3000);
+                    
+                    form.reset();
+                }
+            });
+        });
     </script>
 </body>
 </html>
